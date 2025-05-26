@@ -1,0 +1,31 @@
+services:
+  mysql_service:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: citas_medicas
+      MYSQL_USER: dbuser_poli
+      MYSQL_PASSWORD: dbpassword_poli
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
+    networks:
+      - app-network
+  php_service:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    volumes:
+      - ./:/app
+      - /app/vendor
+    ports:
+      - "9000:9000"
+    networks:
+      - app-network
+    depends_on:
+      - mysql_service
+networks:
+  app-network:
+    driver: bridge
+
