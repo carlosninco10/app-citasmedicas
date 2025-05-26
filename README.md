@@ -11,7 +11,7 @@ Sigue los pasos de instalación según tu sistema operativo en la [documentació
 
 Una vez instalado Docker, ejecuta el siguiente comando en la raíz del proyecto:
 ```bash
-docker compose up -d --build
+sudo docker compose up -d --build --force-recreate
 ```
 
 ### 3. Configuración del Proyecto Laravel
