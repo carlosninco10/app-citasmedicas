@@ -14,15 +14,13 @@ return new class extends Migration
         Schema::create('citas', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('paciente_id')->nullable();
-            $table->unsignedBigInteger('medico_id')->nullable();
-            $table->date('fecha');
-            $table->time('hora');
-            $table->enum('estado',['pendiente', 'confirmada', 'cancelada', 'realizada'])->default('pendiente');
+            $table->unsignedBigInteger('disponibilidad_id')->nullable();
+            $table->enum('estado', ['pendiente', 'confirmada', 'cancelada', 'realizada'])->default('pendiente');
             $table->text('observaciones');
-            $table->timestamp('fecha_creacion')->useCurrent();
+            $table->timestamps();
 
-            $table->foreign('paciente_id')->references('id')->on('usuarios')->onDelete('cascade');
-            $table->foreign('medico_id')->references('id')->on('usuarios')->onDelete('cascade');
+            $table->foreign('paciente_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('disponibilidad_id')->references('id')->on('disponibilidades')->onDelete('cascade');
         });
     }
 

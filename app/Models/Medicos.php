@@ -6,15 +6,27 @@ use Illuminate\Database\Eloquent\Model;
 
 class Medicos extends Model
 {
-    //
-    public function medicosUsuarios(){
-//        return $this->hasOne(Usuarios::class);
-        return $this->belongsToMany(Usuarios::class)->withTimestamps()->withPivot('medico_id', 'especialidad_id');
+
+    protected $table = 'medicos_especialistas';
+    public $timestamps = true;
+    protected $fillable = [
+        'medico_id',
+        'especialidad_id',
+        'estado'
+    ];
+
+        public function usuario()
+    {
+        return $this->belongsTo(User::class, 'medico_id');
     }
-    public function medicosEspecialista(){
-        return $this->hasOne(Especialistas::class)->withTimestamps()->withPivot('medico_id', 'especialidad_id');;
+
+    public function especialista()
+    {
+        return $this->belongsTo(Especialistas::class, 'especialidad_id');
     }
-    public function medicosDisponible(){
-        return $this->belongsTo(Disponibilidades::class);
+
+    public function disponibilidades()
+    {
+        return $this->hasMany(Disponibilidades::class, 'medico_especialidad_id');
     }
 }

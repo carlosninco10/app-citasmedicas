@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('especialistas', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombre', 100);
+            $table->string('descripcion', 255)->nullable();
+            $table->tinyInteger('estado')->default(1);
+            $table->timestamps();
         });
     }
 

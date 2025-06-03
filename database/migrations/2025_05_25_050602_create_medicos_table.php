@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('medico_id')->nullable();
             $table->unsignedBigInteger('especialidad_id')->nullable();
+            $table->tinyInteger('estado')->default(1);
+            $table->timestamps();
 
 
-            $table->foreign('medico_id')->references('id')->on('usuarios')->onDelete('cascade');
+            $table->foreign('medico_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('especialidad_id')->references('id')->on('especialistas')->onDelete('cascade');
         });
     }
