@@ -1,6 +1,5 @@
 services:
   mysql_service:
-    container_name: mysql_service_poli
     image: mysql:8.0
     ports:
       - "3306:3306"
@@ -14,7 +13,6 @@ services:
     networks:
       - app-network
   php_service:
-    container_name: php_service_poli
     build:
       context: .
       dockerfile: docker/php/Dockerfile
