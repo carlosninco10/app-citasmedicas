@@ -1,5 +1,6 @@
 services:
   mysql_service:
+    container_name: mysql_service_poli
     image: mysql:8.0
     ports:
       - "3306:3306"
@@ -9,10 +10,11 @@ services:
       MYSQL_PASSWORD: dbpassword_poli
       MYSQL_ROOT_PASSWORD: root
     volumes:
-      - ./docker/mysql/data:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
     networks:
       - app-network
   php_service:
+    container_name: php_service_poli
     build:
       context: .
       dockerfile: docker/php/Dockerfile
@@ -25,21 +27,9 @@ services:
       - app-network
     depends_on:
       - mysql_service
-  jenkins:
-    build:
-      context: .
-      dockerfile: docker/jenkins/Dockerfile
-    container_name: jenkins
-    user: root
-    ports:
-      - "8081:8080"
-    volumes:
-      - jenkins_home:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock  # importante para usar Docker desde Jenkins
-      - ./:/app  # monta tu código en Jenkins
 networks:
   app-network:
     driver: bridge
 volumes:
-  jenkins_home:
+  mysql_data:
 
