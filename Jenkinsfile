@@ -20,6 +20,11 @@ pipeline {
             }
         }
 
+        stage('create .env file') {
+            steps {
+                sh 'docker compose exec php_service cp .env.example .env'
+            }
+        }
 
         stage('Generate key') {
             steps {
