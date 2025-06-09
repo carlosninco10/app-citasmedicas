@@ -7,6 +7,8 @@ use App\Http\Requests\Usuarios\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -23,7 +25,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('usuarios.create');
+        $roles = Role::all();
+        return view('usuarios.create', compact('roles'));
     }
 
     /**
@@ -31,6 +34,7 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
+        //dd($request->rol);
         // Validación de campos
         $request->validated();
 
@@ -42,6 +46,7 @@ class UserController extends Controller
             'rol' => $request->rol
         ]);
         $usuarios->save();
+        $usuarios->assignRole($request->rol);
 
         return redirect()->route('usuarios.index')->with('success', 'Usuario registrado');
     }
@@ -59,7 +64,9 @@ class UserController extends Controller
      */
     public function edit(User $usuario)
     {
-        return view("usuarios.edit", ["usuario" => $usuario]);
+        $roles = Role::all();
+        //return view("usuarios.edit", ["usuario" => $usuario]);
+        return view('usuarios.edit', compact('usuario', 'roles'));
     }
 
     /**
@@ -67,13 +74,30 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $usuario)
     {
-        $request->validated();
+        //$request->validated();
 
 
-        $usuario->fill($request->input());
-        $usuario->password = Hash::make($usuario->password);
-        $usuario->updated_at = now();
-        $usuario->saveOrFail();
+        // $usuario->fill($request->input());
+        // $usuario->password = Hash::make($usuario->password);
+        // $usuario->updated_at = now();
+        // $usuario->saveOrFail();
+
+        try {
+            DB::beginTransaction();
+
+            if(empty($request->password)) {
+                $request = Arr::exept($request, array('password'));
+            } else {
+                $fieldHash = Hash::make($request->password);
+                $request->merge(['password' => $fieldHash]);
+            }
+          
+            $usuario->update($request->all()); 
+            $usuario->syncRoles([$request->rol]); 
+            DB::commit();
+        } catch(Exception $e) {
+            DB::rollBack();
+        }
 
         return redirect()->route("usuarios.index")->with("success", "Usuario actualizado");
     }

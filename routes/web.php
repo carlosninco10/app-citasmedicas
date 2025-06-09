@@ -9,6 +9,7 @@ use App\Http\Controllers\EspecialistasController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MedicosController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoleController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -34,7 +35,8 @@ Route::resources([
     'especialistas' =>  EspecialistasController::class,
     'medicos' => MedicosController::class,
     'disponibilidades' => DisponibilidadesController::class,
-    'citas' => CitasController::class
+    'citas' => CitasController::class,
+    'roles' => RoleController::class
 ]);
 
 Route::get('/401', function () {

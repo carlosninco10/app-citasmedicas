@@ -48,13 +48,12 @@
                                         @enderror
                                     </div>
                                     <div class="mb-4">
-                                        <label for="rol" class="form-label">Rol</label>
-                                        <select name="rol" id="rol" class="form-select"
-                                            aria-label="form-select rol">
-                                            <option selected disabled>Elige una opción</option>
-                                            <option value="paciente">Paciente</option>
-                                            <option value="medico">Médico</option>
-                                            <option value="admin">Administrador</option>
+                                        <label for="rol" class="form-label">Seleccione rol:</label>
+                                        <select name="rol" id="rol" class="form-select" aria-label="form-select rol">
+                                            <option value="" selected disabled>Seleccione:</option>
+                                            @foreach ($roles as $item)
+                                                <option value="{{$item->name}}" @selected(old('rol') == $item->name)>{{$item->name}}</option>
+                                            @endforeach
                                         </select>
                                         @error('rol')
                                             <small class="text-danger">{{ '* ' . $message }}</small>

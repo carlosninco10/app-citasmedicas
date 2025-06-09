@@ -26,7 +26,7 @@ class UpdateUserRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $usuarioId,
-            'password' => 'required|string|min:8',
+            'password' => 'string|min:8',
             'rol' => 'required'
         ];
     }
@@ -37,7 +37,6 @@ class UpdateUserRequest extends FormRequest
             'email.required' => 'El campo correo electrónico es obligatorio.',
             'email.email' => 'Debe ingresar un correo electrónico válido.',
             'email.unique' => 'El correo electrónico ya está registrado.',
-            'password.required' => 'El campo contraseña es obligatorio.',
             'password.min' => 'La contraseña debe contener al menos 8 caracteres.',
             'rol.required' => 'El campo rol es obligatorio.'
         ];

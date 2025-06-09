@@ -67,20 +67,7 @@
                                         <td>{{ $usuario->name }}</td>
                                         <td>{{ $usuario->email }}</td>
                                         <td>
-                                            @switch($usuario->rol)
-                                                @case('paciente')
-                                                    <span class="text-black">Paciente</span>
-                                                @break
-
-                                                @case('medico')
-                                                    <span class="text-black">Médico</span>
-                                                @break
-
-                                                @case('admin')
-                                                    <span class="text-black">Administrador</span>
-                                                @break
-                                            @endswitch
-
+                                            {{$usuario->getRoleNames()->first()}}
                                         </td>
                                         <td>
                                             @if ($usuario->estado == 1)

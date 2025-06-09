@@ -61,5 +61,11 @@
                 <span class="text-center mt-1">Programación de citas</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a href="{{ route('roles.index') }}" class="nav-link">
+                <i class="fa-solid fa-person-circle-plus fa-lg me-2"></i>
+                <span class="text-center mt-1">Roles</span>
+            </a>
+        </li>
     </ul>
 </aside> <!-- sidebar ends -->

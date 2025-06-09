@@ -49,16 +49,15 @@
                                         @enderror
                                     </div>
                                     <div class="mb-4">
-                                        <label for="rol" class="form-label">Rol</label>
-                                        <select name="rol" id="rol" class="form-select"
-                                            aria-label="form-select rol">
-                                            <option disabled>Elige una opción</option>
-                                            <option value="paciente" {{ $usuario->rol == 'paciente' ? 'selected' : '' }}>
-                                                Paciente</option>
-                                            <option value="medico" {{ $usuario->rol == 'medico' ? 'selected' : '' }}>Médico
-                                            </option>
-                                            <option value="admin" {{ $usuario->rol == 'admin' ? 'selected' : '' }}>
-                                                Administrador</option>
+                                        <label for="rol" class="form-label">Seleccione rol:</label>
+                                        <select name="rol" id="rol" class="form-select" aria-label="form-select rol">
+                                            @foreach ($roles as $item)
+                                            @if(in_array($item->name,$usuario->roles->pluck('name')->toArray()))
+                                            <option selected value="{{$item->name}}" @selected(old('rol') == $item->name)>{{$item->name}}</option>
+                                            @else
+                                            <option value="{{$item->name}}" @selected(old('rol') == $item->name)>{{$item->name}}</option>
+                                            @endif
+                                            @endforeach
                                         </select>
                                         @error('rol')
                                             <small class="text-danger">{{ '* ' . $message }}</small>
